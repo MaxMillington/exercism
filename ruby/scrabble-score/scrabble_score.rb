@@ -8,7 +8,7 @@ class Scrabble
       'F' => 4, 'H' => 4, 'V' => 4, 'W' => 4, 'Y' => 4,
       'K' => 5, 'J' => 8, 'X' => 8, 'Q' => 10, 'Z' => 10,
   }
- 
+
   def self.score(word)
     new(word).score
   end
@@ -17,9 +17,8 @@ class Scrabble
     @word = word.to_s.upcase
   end
 
-
   def score
-    values = @word.strip.each_char
+    values = @word.strip.chars
     values.reduce(0) do |total, letter|
       total += TILE_VALUES[letter]
     end
