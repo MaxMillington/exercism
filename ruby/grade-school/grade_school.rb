@@ -6,14 +6,7 @@ class School
 
   def to_hash
     hashers = @kiddos.sort!.to_h
-    hashers.safe_invert
-  end
-
-  def safe_invert
-    each_with_object({}) do |(key,value),out|
-      out[value] ||= []
-      out[value] << key
-    end
+    hashers.safe_invert.sort_by {|key| key}.to_h
   end
 
   def add(name, grade)
