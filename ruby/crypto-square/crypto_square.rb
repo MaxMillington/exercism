@@ -19,14 +19,26 @@ class Crypto
   end
 
   def plaintext_segments
-    l = @input.length
     monkey = []
-    normalize_plaintext.chars.each_slice(Math.sqrt(l)) {|x| monkey << x.join("").downcase}
+    normalize_plaintext.chars.each_slice(size) {|x| monkey << x.join("").downcase}
     monkey
   end
 
   def ciphertext
-    plaintext_segments.map.with_index { |x, index| x[index]}.join
+    cipher_array.join
   end
 
+
+  def normalize_ciphertext
+    cipher_array.join(' ')
+  end
+
+  private
+
+  def cipher_array
+    chunks = plaintext_segments.map do |s|
+      Array.new(size) { |i| s[i] or '' }
+    end
+    chunks.transpose.map{ |s| s.join("").strip }
+  end
 end
