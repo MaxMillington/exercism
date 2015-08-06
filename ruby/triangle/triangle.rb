@@ -22,7 +22,15 @@ class Triangle
       raise TriangleError
     elsif @side3 + @side1 <= @side2
       raise TriangleError
-    elsif @sides.size == 1
+    else
+      species_generator
+    end
+  end
+
+  private
+
+  def species_generator
+    if @sides.size == 1
       return :equilateral
     elsif @sides.size == 2
       return :isosceles
@@ -30,8 +38,9 @@ class Triangle
       return :scalene
     end
   end
-
 end
+
+
 
 class TriangleError < StandardError
 
