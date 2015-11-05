@@ -1,15 +1,15 @@
 class SumOfMultiples
 
-  attr_reader :x, :y
+  attr_reader :x, :y, :z
 
-  def self.to(number)
-    new(3, 5).to(number)
-  end
-
-  def initialize(x, y, z = 1000000000000000000000000000000000000000)
+  def initialize(x, y, z = 1000000000000000000000000)
     @x = x
     @y = y
     @z = z
+  end
+
+  def self.to(number)
+    self.new(3, 5).to(number)
   end
 
   def to(number)
@@ -17,16 +17,20 @@ class SumOfMultiples
   end
 
   def multiples(number)
-    special_numbers = []
-    0.upto(number) do |n|
-      if n.modulo(@x) == 0 && n != number
-        special_numbers << n
-      elsif n.modulo(@y) == 0 && n != number
-        special_numbers << n
-      elsif n.modulo(@z) == 0 && n != number
-        special_numbers << n
-      end
+    chosen_numbers = []
+    (0..number-1).each do |n|
+      check_modulos(n, chosen_numbers)
     end
-    special_numbers
+    chosen_numbers
+  end
+
+  def check_modulos(n, chosen_numbers)
+    if n % x == 0
+      chosen_numbers << n
+    elsif n % y == 0
+      chosen_numbers << n
+    elsif n % z == 0
+      chosen_numbers << n
+    end
   end
 end
