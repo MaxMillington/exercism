@@ -3,6 +3,7 @@ gem 'minitest', '>= 5.0.0'
 require 'minitest/autorun'
 require_relative 'crypto_square'
 require 'minitest/pride'
+require 'pry'
 
 class CryptoTest < Minitest::Test
   def test_normalize_strange_characters

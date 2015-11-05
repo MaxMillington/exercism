@@ -6,39 +6,42 @@ class Crypto
     @input = input
   end
 
-
   def normalize_plaintext
-    @input.downcase.chars.reject do |x|
-      x == "#" || x == "$" || x == "%" || x == "^" || x == "&" || x == "!" || x == "," || x == "."
-    end.join.gsub(/\s+/, "")
+    @input.downcase.scan(/([A-Za-z0-9]+)/).flatten.join
   end
 
   def size
-    number = normalize_plaintext.length
-    Math.sqrt(number).ceil
+    Math.sqrt(normalize_plaintext.size).ceil
   end
 
   def plaintext_segments
-    monkey = []
-    normalize_plaintext.chars.each_slice(size) {|x| monkey << x.join("").downcase}
-    monkey
+    segments = []
+    normalize_plaintext.chars.each_slice(size) do |segment|
+      segments << segment.join
+    end
+    segments
   end
 
   def ciphertext
     cipher_array.join
   end
 
-
   def normalize_ciphertext
-    cipher_array.join(' ')
+    normalized_text = cipher_array.each do |element|
+      element.join
+    end
+    normalized_text.map {|element| element.join}.join(" ")
   end
 
   private
 
   def cipher_array
-    chunks = plaintext_segments.map do |s|
-      Array.new(size) { |i| s[i] or '' }
-    end
-    chunks.transpose.map{ |s| s.join("").strip }
+    squared_segments = plaintext_segments.map do |segment|
+      Array.new(size) do |index|
+        segment[index] || ""
+      end
+    end.compact
+    squared_segments.transpose
   end
+  
 end
