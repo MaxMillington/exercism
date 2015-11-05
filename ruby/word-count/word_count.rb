@@ -1,15 +1,13 @@
 class Phrase
-
   require 'pry'
 
   def initialize(phrase)
-    stripped_phrase = phrase.downcase.delete("!@$&%^:.")
-    @phrase = stripped_phrase.gsub(',', ' ' ).split
+    @phrase = phrase.downcase.scan(/([A-Za-z0-9']+)/).flatten
   end
 
   def word_count
     frequencies = Hash.new(0)
-    @phrase.each {|word| frequencies[word] += 1 }
+    @phrase.each { |word| frequencies[word] += 1}
     frequencies
   end
 
